@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">TrackMenuAndroid</string>
+    <string name="home">Home</string>
+    <string name="order">My Order</string>
+    <string name="akun">Account</string>
+    <string name="nama">Nama</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="signin">Signin</string>
+    <string name="signup">Signup</string>
+    <string name="askaccount">Belum punya akun? daftar disini</string>
+    <string name="asklogin">Sudah punya akun? login disini</string>
+    <string name="dummyToken">8aa560b5efa8691dddcf4a11a69b3d1f98f01280bb6ef6efbd32ca39d9b8ac33</string>
+    <string name="dummyPicture">http://s3.amazonaws.com/37assets/svn/765-default-avatar.png</string>
+    <string name="KeyPassword">SATULIMAKALI</string>
+    <string name="stateConnected">1</string>
+    <string name="stateDisconnected">0</string>
+    <string name="server">http://172.20.10.5/trackmenuapi/</string>
+    <string name="notifnoconnection">Tidak ada koneksi, coba lagi</string>
+    <string name="logingagal">Login Gagal, Username Password tidak valid</string>
+    <string name="daftargagal">Daftar Gagal, masih ada yang kosong \natau email sudah digunakan</string>
 </resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginBottom="12dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout
+        android:padding="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/imageMenu"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/txtTitleMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imageMenu"
+            android:layout_toRightOf="@+id/imageMenu"
+            android:text="Nama" />
+
+        <TextView
+            android:id="@+id/txtHargaMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Harga"
+            android:layout_alignBottom="@+id/imageMenu"
+            android:layout_toRightOf="@+id/imageMenu"
+            android:layout_toEndOf="@+id/imageMenu" />
+
+        <Button
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:id="@+id/btnAddMenu"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="ADD"
+            android:layout_alignBottom="@+id/txtHargaMenu"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="11dp"
+            android:layout_marginEnd="11dp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

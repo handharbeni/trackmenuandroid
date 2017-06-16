@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="GalleryLayoutManager-1.0.4">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/0fc9df873208d19f8ffed9b5e17eb5e4f562b2ed/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/0fc9df873208d19f8ffed9b5e17eb5e4f562b2ed/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/github.hellocsl/GalleryLayoutManager/1.0.4/312002b91b923df803df042c405336475d65040b/GalleryLayoutManager-1.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
