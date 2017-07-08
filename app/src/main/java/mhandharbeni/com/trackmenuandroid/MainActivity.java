@@ -1,23 +1,33 @@
 package mhandharbeni.com.trackmenuandroid;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.akhgupta.easylocation.EasyLocationAppCompatActivity;
+import com.akhgupta.easylocation.EasyLocationRequest;
+import com.akhgupta.easylocation.EasyLocationRequestBuilder;
 import com.golovin.fluentstackbar.FluentSnackbar;
+import com.google.android.gms.location.LocationRequest;
 import com.pddstudio.preferences.encrypted.EncryptedPreferences;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.stephentuso.welcome.WelcomeHelper;
@@ -36,6 +46,8 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 import mhandharbeni.com.trackmenuandroid.fragment.FragmentAkun;
 import mhandharbeni.com.trackmenuandroid.fragment.FragmentHome;
 import mhandharbeni.com.trackmenuandroid.fragment.FragmentOrder;
+import mhandharbeni.com.trackmenuandroid.fragment.subcart.Cart;
+import mhandharbeni.com.trackmenuandroid.services.MainServices;
 import sexy.code.Callback;
 import sexy.code.FormBody;
 import sexy.code.HttPizza;
@@ -44,9 +56,10 @@ import sexy.code.RequestBody;
 import sexy.code.Response;
 
 public class MainActivity
-        extends AppCompatActivity
+        extends EasyLocationAppCompatActivity
         implements BottomNavigation.OnMenuItemSelectionListener, ConnectivityChangeListener {
 
+    public String TAG = this.getClass().getSimpleName().toString();
     private FluentSnackbar mFluentSnackbar;
     public String STAT = "stat", KEY = "key", NAMA="nama", EMAIL= "email", PICTURE = "gambar";
     BottomNavigation bottomNavigation;
@@ -61,6 +74,7 @@ public class MainActivity
     MaterialEditText txtEmail, txtPassword, txtDNama, txtDEmail, txtDPassword;
     TextView askLogin, askAccount;
     Button btnSignin, btnSignup;
+    ImageView backButton, cartButton;
 
     String endUri, uriLogin, uriDaftar;
 
@@ -85,7 +99,7 @@ public class MainActivity
                 permissions,
                 5
         );
-
+        startTracking();
         encryptedPreferences = new EncryptedPreferences.Builder(this).withEncryptionPassword(getString(R.string.KeyPassword)).build();
         networkInspectorConfiguration = new ConnectionBuddyConfiguration.Builder(this).build();
         ConnectionBuddy.getInstance().init(networkInspectorConfiguration);
@@ -105,9 +119,50 @@ public class MainActivity
         welcomeScreen.show(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        cartButton = (ImageView) findViewById(R.id.imageCart);
+        cartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeTitle("Cart");
+                changeFragment(new Cart());
+            }
+        });
+
         initLayout();
         initItemLayout();
         checkSession();
+    }
+    public void startTracking(){
+        LocationRequest locationRequest = new LocationRequest()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(5000)
+                .setFastestInterval(5000);
+        EasyLocationRequest easyLocationRequest = new EasyLocationRequestBuilder()
+                .setLocationRequest(locationRequest)
+                .setFallBackToLastLocationTime(3000)
+                .build();
+
+        requestLocationUpdates(easyLocationRequest);
+    }
+    public void startServices(){
+        if (!MainServices.serviceRunning){
+            startService(new Intent(getApplicationContext(), MainServices.class));
+        }
+    }
+    public void stopServices(){
+        stopService(new Intent(this, MainServices.class));
+
+        ConnectionBuddy.getInstance().clearNetworkCache(this);
+        ConnectionBuddy.getInstance().notifyConnectionChange(true, this);
+
+        networkInspectorConfiguration = new ConnectionBuddyConfiguration.Builder(this).build();
+        ConnectionBuddy.getInstance().init(networkInspectorConfiguration);
+
+    }
+    public void changeTitle(String title){
+        TextView customTitle = (TextView) findViewById(R.id.customTitle);
+        customTitle.setText(title);
     }
     public void initLayout(){
         mainLayout = (RelativeLayout) findViewById(R.id.mainlayout);
@@ -171,11 +226,38 @@ public class MainActivity
             case 2 :
                 /*main layout*/
                 mainLayout.setVisibility(View.VISIBLE);
+                startServices();
                 initBottomMenu();
+                bottomNavigation.setSelectedIndex(0, true);
+                Fragment fragment = new FragmentHome();
+                changeFragment(fragment);
                 break;
             default:
                 break;
         }
+    }
+    public void setTitleDefault(){
+        TextView customTitle = (TextView) findViewById(R.id.customTitle);
+        customTitle.setText(getString(R.string.app_name));
+    }
+    public void setTitleDefault(String title){
+        TextView customTitle = (TextView) findViewById(R.id.customTitle);
+        customTitle.setText(title);
+    }
+    public void showBackButton(){
+        backButton = (ImageView) findViewById(R.id.imageBack);
+        backButton.setVisibility(View.VISIBLE);
+    }
+    public void hideBackButton(){
+        backButton = (ImageView) findViewById(R.id.imageBack);
+        backButton.setVisibility(View.GONE);
+    }
+    public void goBack(){
+        Fragment fr = new FragmentHome();
+        changeFragment(fr);
+    }
+    public void goBack(Fragment fragment){
+        changeFragment(fragment);
     }
     public void setSession(String key, String nama, String email, String pos){
         encryptedPreferences.edit()
@@ -351,5 +433,57 @@ public class MainActivity
     public void onStop() {
         ConnectionBuddy.getInstance().unregisterFromConnectivityEvents(this);
         super.onStop();
+    }
+
+    @Override
+    public void onLocationPermissionGranted() {
+
+    }
+
+    @Override
+    public void onLocationPermissionDenied() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GPS Service are Disabled");
+        builder.setMessage("Please enable Location Services and GPS");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+        Dialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+    }
+
+    @Override
+    public void onLocationReceived(Location location) {
+        encryptedPreferences.edit()
+                .putString("latitude", String.valueOf(location.getLatitude()))
+                .putString("longitude", String.valueOf(location.getLongitude()))
+                .putString("altitude", String.valueOf(location.getAltitude()))
+                .putString("accuracy", String.valueOf(location.getAccuracy()))
+                .apply();
+    }
+
+    @Override
+    public void onLocationProviderEnabled() {
+
+    }
+
+    @Override
+    public void onLocationProviderDisabled() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("GPS Service are Disabled");
+        builder.setMessage("Please enable Location Services and GPS");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+        Dialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
     }
 }

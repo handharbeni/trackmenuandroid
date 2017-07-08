@@ -9,9 +9,22 @@
     app:contentInsetStart="0dp">
 
     <RelativeLayout
+        android:textAlignment="gravity"
+        android:gravity="center_horizontal"
         android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageView
+            android:visibility="gone"
+            android:scaleType="centerInside"
+            android:gravity="center_horizontal|center_vertical"
+            android:id="@+id/imageBack"
+            android:layout_width="30dp"
+            android:layout_height="56dp"
+            app:srcCompat="@drawable/ic_back"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:textColor="@android:color/white"
@@ -23,5 +36,16 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_horizontal|center_vertical" />
+
+        <ImageView
+            android:scaleType="centerInside"
+            android:gravity="center_horizontal|center_vertical"
+            android:id="@+id/imageCart"
+            android:layout_width="30dp"
+            android:layout_height="56dp"
+            app:srcCompat="@drawable/ic_add_shopping_cart_black"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

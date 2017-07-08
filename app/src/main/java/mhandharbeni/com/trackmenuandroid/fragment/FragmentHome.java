@@ -1,35 +1,100 @@
 package mhandharbeni.com.trackmenuandroid.fragment;
 
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.pddstudio.preferences.encrypted.EncryptedPreferences;
+import com.zplesac.connectionbuddy.ConnectionBuddy;
+import com.zplesac.connectionbuddy.ConnectionBuddyConfiguration;
+import com.zplesac.connectionbuddy.interfaces.ConnectivityChangeListener;
+import com.zplesac.connectionbuddy.models.ConnectivityEvent;
+import com.zplesac.connectionbuddy.models.ConnectivityState;
 
 import java.util.HashMap;
 
+import mhandharbeni.com.trackmenuandroid.MainActivity;
 import mhandharbeni.com.trackmenuandroid.R;
+import mhandharbeni.com.trackmenuandroid.fragment.submenu.DetailMenu;
+import sexy.code.HttPizza;
 
 /**
  * Created by root on 06/06/17.
  */
 
-public class FragmentHome extends Fragment {
+public class FragmentHome extends Fragment implements ConnectivityChangeListener {
+    public String STAT = "stat", KEY = "key", NAMA="nama", EMAIL= "email", PICTURE = "gambar";
     View v;
     private SliderLayout mDemoSlider;
+    private ImageView kategoriMakanan, kategoriMinuman;
+
+    EncryptedPreferences encryptedPreferences;
+    ConnectionBuddyConfiguration networkInspectorConfiguration;
+    HttPizza client;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        encryptedPreferences = new EncryptedPreferences.Builder(getActivity().getApplicationContext()).withEncryptionPassword(getString(R.string.KeyPassword)).build();
+        networkInspectorConfiguration = new ConnectionBuddyConfiguration.Builder(getActivity().getApplicationContext()).build();
+        ConnectionBuddy.getInstance().init(networkInspectorConfiguration);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        client = new HttPizza();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.home_layout, container, false);
+
+        setDataKategori();
+
         initBanner();
         return v;
     }
+    public void setDataKategori(){
+        kategoriMakanan = (ImageView) v.findViewById(R.id.kategoriMakanan);
+        kategoriMinuman = (ImageView) v.findViewById(R.id.kategoriMinuman);
 
+        kategoriMakanan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeTitle("Makanan");
+                showListMenu("Makanan");
+            }
+        });
+        kategoriMinuman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeTitle("Minuman");
+                showListMenu("Minuman");
+            }
+        });
+    }
+    public void showListMenu(String kategori){
+        Bundle bundle = new Bundle();
+        bundle.putString("kategori", kategori);
+
+        Fragment fragment = new DetailMenu();
+        fragment.setArguments(bundle);
+
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame_container, fragment);
+        ft.commit();
+    }
 
     public void initBanner(){
         mDemoSlider = (SliderLayout)v.findViewById(R.id.slider);
@@ -80,5 +145,19 @@ public class FragmentHome extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onConnectionChange(ConnectivityEvent event) {
+        if(event.getState().getValue() == ConnectivityState.CONNECTED){
+            encryptedPreferences.edit()
+                    .putString("NETWORK", getString(R.string.stateConnected))
+                    .apply();
+        }
+        else{
+            encryptedPreferences.edit()
+                    .putString("NETWORK", getString(R.string.stateDisconnected))
+                    .apply();
+        }
     }
 }

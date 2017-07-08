@@ -1,6 +1,5 @@
 package mhandharbeni.com.trackmenuandroid.fragment;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 
 import java.util.Locale;
 
+import mhandharbeni.com.trackmenuandroid.MainActivity;
 import mhandharbeni.com.trackmenuandroid.R;
 import mhandharbeni.com.trackmenuandroid.fragment.subfragment.OrderActive;
 import mhandharbeni.com.trackmenuandroid.fragment.subfragment.OrderCompleted;
@@ -39,8 +39,8 @@ public class FragmentOrder extends Fragment implements TabLayout.OnTabSelectedLi
         tabLayout.removeAllTabs();
         final TabLayout.Tab active = tabLayout.newTab();
         final TabLayout.Tab completed = tabLayout.newTab();
-        active.setText("Active");
-        completed.setText("Completed");
+        active.setText(getString(R.string.orderactive));
+        completed.setText(getString(R.string.ordercomplete));
         tabLayout.addTab(active, 0);
         tabLayout.addTab(completed, 1);
 
@@ -56,13 +56,15 @@ public class FragmentOrder extends Fragment implements TabLayout.OnTabSelectedLi
         switch (tab.getPosition()){
             case 0:
                 /*active*/
-                sbLengkap = setToBold("Active", "Active");
+                sbLengkap = setToBold(getString(R.string.orderactive), getString(R.string.orderactive));
                 fragment = new OrderActive();
+                ((MainActivity)getActivity()).changeTitle(getString(R.string.orderactive));
                 break;
             case 1:
                 /*completd*/
-                sbLengkap = setToBold("Completed", "Completed");
+                sbLengkap = setToBold(getString(R.string.ordercomplete), getString(R.string.ordercomplete));
                 fragment = new OrderCompleted();
+                ((MainActivity)getActivity()).changeTitle(getString(R.string.ordercomplete));
                 break;
         }
         tab.setText(sbLengkap);
@@ -75,11 +77,11 @@ public class FragmentOrder extends Fragment implements TabLayout.OnTabSelectedLi
         switch (tab.getPosition()){
             case 0:
                 /*active*/
-                sbLengkap = setToThin("Active", "Active");
+                sbLengkap = setToThin(getString(R.string.orderactive), getString(R.string.orderactive));
                 break;
             case 1:
                 /*completd*/
-                sbLengkap = setToThin("Completed", "Completed");
+                sbLengkap = setToThin(getString(R.string.ordercomplete), getString(R.string.ordercomplete));
                 break;
         }
         tab.setText(sbLengkap);

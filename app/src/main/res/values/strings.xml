@@ -19,4 +19,16 @@
     <string name="notifnoconnection">Tidak ada koneksi, coba lagi</string>
     <string name="logingagal">Login Gagal, Username Password tidak valid</string>
     <string name="daftargagal">Daftar Gagal, masih ada yang kosong \natau email sudah digunakan</string>
+    <string name="orderactive">Order Active</string>
+    <string name="ordercomplete">Order Complete</string>
+    <string name="food">Makanan</string>
+    <string name="drink">Minuman</string>
+    <string name="qty">Jumlah</string>
+    <string name="delete">Hapus</string>
+    <string name="accept">Setuju</string>
+    <string name="addnotes">Tambah Catatan</string>
+    <string name="addmore">Tambah Item</string>
+    <string name="detailaddress">Detail Tujuan</string>
+    <string name="detailpayment">Detail Pembayaran</string>
 </resources>
+

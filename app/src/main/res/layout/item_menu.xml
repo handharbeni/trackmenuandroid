@@ -1,51 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginBottom="12dp"
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginBottom="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
-    <RelativeLayout
-        android:padding="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:maxWidth="100dp"
-            android:maxHeight="100dp"
-            android:layout_marginRight="5dp"
-            android:id="@+id/imageMenu"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:srcCompat="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/txtTitleMenu"
-            android:layout_width="wrap_content"
+    android:layout_width="match_parent" android:layout_height="wrap_content">-->
+<com.ramotion.foldingcell.FoldingCell xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/folding_cell"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <FrameLayout
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:id="@+id/cell_content_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/imageMenu"
-            android:layout_toRightOf="@+id/imageMenu"
-            android:text="Nama" />
+            android:background="@android:color/holo_green_dark"
+            android:padding="10dp"
+            android:visibility="gone">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/txtLabelAddNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="@string/addnotes"/>
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/notes"
+                    android:layout_below="@+id/txtLabelAddNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
 
-        <TextView
-            android:id="@+id/txtHargaMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Harga"
-            android:layout_alignBottom="@+id/imageMenu"
-            android:layout_toRightOf="@+id/imageMenu"
-            android:layout_toEndOf="@+id/imageMenu" />
+            </RelativeLayout>
+        </FrameLayout>
+        ​<FrameLayout
+            android:id="@+id/cell_title_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:maxWidth="80dp"
+                    android:maxHeight="80dp"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/imageMenu"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:srcCompat="@mipmap/ic_launcher" />
 
-        <Button
-            style="@style/Base.Widget.AppCompat.Button.Colored"
-            android:id="@+id/btnAddMenu"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:text="ADD"
-            android:layout_alignBottom="@+id/txtHargaMenu"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="11dp"
-            android:layout_marginEnd="11dp" />
-    </RelativeLayout>
+                <TextView
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:id="@+id/txtTitleMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imageMenu"
+                    android:layout_toEndOf="@+id/imageMenu" />
 
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    android:id="@+id/txtHargaMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Harga"
+                    android:layout_alignBottom="@+id/imageMenu"
+                    android:layout_toRightOf="@+id/imageMenu"
+                    android:layout_toEndOf="@+id/imageMenu" />
 
-</LinearLayout>
+                <Button
+                    android:textSize="12dp"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:id="@+id/btnAddMenu"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:text="ADD"
+                    android:layout_alignBottom="@+id/txtHargaMenu"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginEnd="11dp" />
+            </RelativeLayout>
+        </FrameLayout>
+    </com.ramotion.foldingcell.FoldingCell>
+<!--
+</LinearLayout>-->

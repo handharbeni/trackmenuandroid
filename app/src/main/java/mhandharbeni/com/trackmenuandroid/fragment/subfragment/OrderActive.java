@@ -9,14 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import mhandharbeni.com.trackmenuandroid.MainActivity;
 import mhandharbeni.com.trackmenuandroid.R;
 import mhandharbeni.com.trackmenuandroid.adapter.adapter.MenuAdapter;
 import mhandharbeni.com.trackmenuandroid.adapter.decoration.DividerItemDecoration;
 import mhandharbeni.com.trackmenuandroid.adapter.model.MenuModel;
+import mhandharbeni.com.trackmenuandroid.fragment.FragmentHome;
+import mhandharbeni.com.trackmenuandroid.fragment.FragmentOrder;
 
 /**
  * Created by root on 06/06/17.
@@ -25,16 +29,31 @@ import mhandharbeni.com.trackmenuandroid.adapter.model.MenuModel;
 public class OrderActive extends Fragment {
     View v;
     RecyclerView rvActive;
+    ImageView backsButton;
 
     List<MenuModel> menuList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.order_active, container, false);
         rvActive = (RecyclerView) v.findViewById(R.id.listActive);
+//        initBack();
         dummyData();
         initAdapter();
         initLayoutManager();
         return v;
+    }
+    public void initBack(){
+        ((MainActivity)getActivity()).showBackButton();
+        backsButton = (ImageView)((MainActivity)getActivity()).findViewById(R.id.imageBack);
+        backsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).setTitleDefault();
+                ((MainActivity)getActivity()).goBack(new FragmentOrder());
+                ((MainActivity)getActivity()).hideBackButton();
+            }
+        });
+
     }
     public void dummyData(){
         menuList = new ArrayList<>();
