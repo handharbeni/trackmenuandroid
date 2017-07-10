@@ -139,6 +139,7 @@ public class TempTransaksiOrderAdapter extends RecyclerView.Adapter<TempTransaks
         notifNewData();
         notifyItemRemoved(newPosition);
         notifyItemRangeChanged(newPosition, menuList.size());
+        cartUtil.updateInfo();
     }
     public void deleteItemTemp(int id, int position){
         tempTransaksiOrderHelper.deleteItem(id);

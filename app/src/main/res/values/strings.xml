@@ -25,10 +25,15 @@
     <string name="drink">Minuman</string>
     <string name="qty">Jumlah</string>
     <string name="delete">Hapus</string>
-    <string name="accept">Setuju</string>
+    <string name="accept">Order</string>
     <string name="addnotes">Tambah Catatan</string>
     <string name="addmore">Tambah Item</string>
     <string name="detailaddress">Detail Tujuan</string>
     <string name="detailpayment">Detail Pembayaran</string>
+    <string name="changedestination">Ganti</string>
+    <string name="statusok">OK</string>
+    <string name="total">Total</string>
+    <string name="deliveryfee">Biaya Antar</string>
+    <string name="totalharga">Total Harga</string>
 </resources>
 

@@ -65,7 +65,9 @@ dependencies {
     compile 'sexy.code:httpizza:0.3.0'
     /*location*/
     compile 'com.akhgupta:android-easylocation:1.0.1'
-    compile "com.google.android.gms:play-services-location:11.0.1"
     compile 'com.ramotion.foldingcell:folding-cell:1.2.1'
+    compile 'com.google.android.gms:play-services-maps:11.0.2'
+    compile "com.google.android.gms:play-services-location:11.0.2"
+    compile 'com.schibstedspain.android:leku:3.4.0'
     testCompile 'junit:junit:4.12'
 }
